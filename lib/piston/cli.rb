@@ -122,13 +122,14 @@ Main {
     logger_level Logger::DEBUG
     def run
       configure_logging!
-
-      cmd = Piston::Commands::LockUnlock.new(:wcdir => params["directory"].value,
+      
+      wcdir = params["directory"].value
+      cmd = Piston::Commands::LockUnlock.new(:wcdir => wcdir,
                                              :verbose => params["verbose"].value,
                                              :quiet => params["quiet"].value,
                                              :force => params["force"].value)
       begin
-        cmd.run(true)
+        cmd.run(wcdir, true)
         puts "#{params["directory"].value} locked"
       rescue Piston::WorkingCopy::NotWorkingCopy
         puts "The #{params["directory"].value} is not Pistonized"
@@ -149,12 +150,13 @@ Main {
     def run
       configure_logging!
 
-      cmd = Piston::Commands::LockUnlock.new(:wcdir => params["directory"].value,
+      wcdir = params["directory"].value
+      cmd = Piston::Commands::LockUnlock.new(:wcdir => wcdir,
                                              :verbose => params["verbose"].value,
                                              :quiet => params["quiet"].value,
                                              :force => params["force"].value)
       begin
-        cmd.run(false)
+        cmd.run(wcdir, false)
         puts "#{params["directory"].value} unlocked"
       rescue Piston::WorkingCopy::NotWorkingCopy
         puts "The #{params["directory"].value} is not Pistonized"
